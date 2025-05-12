@@ -2,7 +2,7 @@ module github.com/formancehq/ledger
 
 go 1.23.0
 
-toolchain go1.23.3
+toolchain go1.24.1
 
 replace github.com/formancehq/ledger/pkg/client => ./pkg/client
 
