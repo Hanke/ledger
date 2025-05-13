@@ -15,4 +15,3 @@ LABEL org.opencontainers.image.source=https://github.com/formancehq/ledger
 COPY --from=compiler /src/provisioner /bin/provisioner
 ENTRYPOINT ["/bin/provisioner"]
 CMD ["--help"]
- 
