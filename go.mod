@@ -4,7 +4,6 @@ go 1.23.0
 
 toolchain go1.24.1
 
-replace github.com/formancehq/ledger/pkg/client => ./pkg
 
 replace google.golang.org/genproto v0.0.0-20200423170343-7949de9c1215 => google.golang.org/genproto v0.0.0-20240903143218-8af14fe29dc1
 
