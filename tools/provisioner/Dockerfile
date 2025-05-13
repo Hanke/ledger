@@ -1,10 +1,13 @@
 FROM golang:1.24-alpine AS compiler
 WORKDIR /src
-COPY go.* .
+
+# Copy the entire project first to ensure pkg/client is available
+COPY . .
+
+# Now go mod download will work with the replacement directive
 RUN --mount=type=cache,target=$GOPATH go mod download
-COPY main.go .
-COPY cmd /src/cmd
-COPY pkg /src/pkg
+
+# Build the application
 RUN --mount=type=cache,target=$GOPATH go build -o provisioner
 
 FROM alpine:3.21
