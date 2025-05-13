@@ -1,8 +1,11 @@
 FROM golang:1.24-alpine AS compiler
 WORKDIR /src
 
-# Copy the entire project first to ensure pkg/client is available
+# Copy the entire project
 COPY . .
+
+# Verify the pkg/client directory exists
+RUN ls -la pkg/client || echo "pkg/client directory not found"
 
 # Now go mod download will work with the replacement directive
 RUN --mount=type=cache,target=/go/pkg/mod go mod download
