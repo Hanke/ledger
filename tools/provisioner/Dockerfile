@@ -1,20 +1,20 @@
-FROM golang:1.24-alpine AS compiler
-WORKDIR /src
+FROM golang:1.23.0-bookworm AS builder
+WORKDIR /usr/src/app
 
-# Copy the entire project
+# Copy the entire project first
 COPY . .
 
 # Verify the pkg/client directory exists
 RUN ls -la pkg/client || echo "pkg/client directory not found"
 
 # Now go mod download will work with the replacement directive
-RUN --mount=type=cache,target=/go/pkg/mod go mod download
+RUN go mod download && go mod verify
 
 # Build the application
-RUN --mount=type=cache,target=/go/pkg/mod go build -o provisioner
+RUN go build -o app
 
-FROM alpine:3.21
+FROM debian:bookworm
 LABEL org.opencontainers.image.source=https://github.com/formancehq/ledger
-COPY --from=compiler /src/provisioner /bin/provisioner
-ENTRYPOINT ["/bin/provisioner"]
+COPY --from=builder /usr/src/app/app /app
+ENTRYPOINT ["/app"]
 CMD ["--help"]
