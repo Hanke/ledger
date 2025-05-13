@@ -5,10 +5,10 @@ WORKDIR /src
 COPY . .
 
 # Now go mod download will work with the replacement directive
-RUN --mount=type=cache,target=$GOPATH go mod download
+RUN --mount=type=cache,target=/go/pkg/mod go mod download
 
 # Build the application
-RUN --mount=type=cache,target=$GOPATH go build -o provisioner
+RUN --mount=type=cache,target=/go/pkg/mod go build -o provisioner
 
 FROM alpine:3.21
 LABEL org.opencontainers.image.source=https://github.com/formancehq/ledger
