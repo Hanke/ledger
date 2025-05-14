@@ -1,4 +1,3 @@
-cat > fly.toml << 'EOL'
 # fly.toml app configuration file generated for ledger-iljhaa on 2025-05-13T20:42:24Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
@@ -41,4 +40,3 @@ primary_region = 'yul'
   path = "/api/v2/_info"
   protocol = "http"
   timeout = 5000
-EOL
