@@ -1,3 +1,4 @@
+cat > fly.toml << 'EOL'
 # fly.toml app configuration file generated for ledger-iljhaa on 2025-05-13T20:42:24Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
@@ -12,6 +13,7 @@ primary_region = 'yul'
 
 [env]
   PORT = '8080'
+  DEBUG = "true"
 
 [http_service]
   internal_port = 8080
@@ -19,13 +21,24 @@ primary_region = 'yul'
   auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 1
-  processes = ["app"]
+
+[deploy]
+  release_command = "/usr/local/bin/run-app migrate"
 
 [processes]
-  app = "/usr/local/bin/run-app serve"
+  app = "/usr/local/bin/run-app serve --debug"
 
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
   memory_mb = 1024
+
+[[services.http_checks]]
+  interval = 10000
+  grace_period = "30s"
+  method = "get"
+  path = "/api/v2/_info"
+  protocol = "http"
+  timeout = 5000
+EOL
